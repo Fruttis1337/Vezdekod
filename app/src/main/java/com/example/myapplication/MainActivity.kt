@@ -1,11 +1,17 @@
 package com.example.myapplication
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -43,12 +49,15 @@ class MainActivity : AppCompatActivity() {
 
             var fileOut = File(path, filename)
 
-            fileOut.createNewFile()
+            if (!fileOut.canRead())
+                fileOut.createNewFile()
 
             val sdCard = Environment.getExternalStorageDirectory().path + '/' + "incidents.json"
 
-            val inputStream = getJsonDataFromSDcard(sdCard)
+//            val inputStream = getJsonDataFromSDcard(sdCard)
 
+            val inputStream =
+                this.assets.open("incidents.json").bufferedReader().use { it.readText() }
 
             val gson = Gson()
             val listIncidentsType = object : TypeToken<List<Incident>>() {}.type
@@ -61,7 +70,27 @@ class MainActivity : AppCompatActivity() {
                 incidents.forEach {
                     myAdapter.add(it.toString())
                 }
+
+                listView.setOnItemClickListener { parent, view, position, id ->
+                    val incident_activity = Intent(this, incident_activity::class.java)
+                    incident_activity.putExtra("incident", gson.toJson(incidents[id.toInt()]))
+                    startActivity(incident_activity)
+                }
+            } else {
+                val empty_file = TextView(this)
+                empty_file.layoutParams =
+                    CoordinatorLayout.LayoutParams(
+                        CoordinatorLayout.LayoutParams.MATCH_PARENT,
+                        CoordinatorLayout.LayoutParams.MATCH_PARENT
+                    )
+                empty_file.textSize = 20F
+                empty_file.gravity = Gravity.CENTER
+                empty_file.setTextColor(Color.parseColor("#000000"))
+                empty_file.text = "Аварий не обнуружено, все живы, ура!!!"
+                coordLayout.addView(empty_file)
             }
+
+
         }
 
     }

@@ -17,6 +17,7 @@
 
         <TextView
             android:id="@+id/title"
+            android:paddingTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -112,6 +113,7 @@
             android:background="@android:color/darker_gray" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
