@@ -16,7 +16,7 @@ class incident_activity : AppCompatActivity() {
             val response = intent.getStringExtra("incident")
             if (response != null) {
                 var incident = Gson().fromJson(response, Incident::class.java)
-                description.text = incident.DESCRIPTION
+                description.text = "${incident.DESCRIPTION} (${incident.TICKETID})"
                 general_information.reported_by.text = incident.REPORTEDBY
                 general_information.crit_level.text = incident.CRITIC_LEVEL.toString()
                 general_information.date_detection_incident_activity.text =

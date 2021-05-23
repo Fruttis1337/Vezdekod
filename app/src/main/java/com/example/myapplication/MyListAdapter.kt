@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.example.myapplication.Incident
 import com.example.myapplication.R
+import com.example.myapplication.incident_activity
 
 class MyListAdapter(
     private val context: Activity,
